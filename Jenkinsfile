@@ -202,9 +202,9 @@ pipeline {
              //   }
            // }
        // }
-                            stage('Package') {
+                            stage('Nexus') {
             steps {
-                sh 'mvn package -DskipTests -B -ntp'
+                
             }
         }
     }
