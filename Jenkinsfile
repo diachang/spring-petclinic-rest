@@ -202,9 +202,16 @@ pipeline {
              //   }
            // }
        // }
-                            stage('Nexus') {
-            steps {
-                
+            stage('Nexus') {
+                steps {
+                    nexusPublisher nexusInstanceId: 'nexus', 
+                    nexusRepositoryId: 'spring-petclinic-rest-release',
+                    packages: [[$class: 'MavenPackage',
+                    mavenAssetList: [[classifier: '', extension: '',
+                    filePath: 'target/spring-petclinic-rest-3.4.10.jar']],
+                    mavenCoordinate: [artifactId: 'spring-petclinic-rest',
+                    groupId: 'org.springframework.samples',
+                    packaging: 'jar', version: '3.4.10']]]
             }
         }
     }
