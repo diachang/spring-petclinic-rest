@@ -212,6 +212,7 @@ pipeline {
                     mavenCoordinate: [artifactId: 'spring-petclinic-rest',
                     groupId: 'org.springframework.samples',
                     packaging: 'jar', version: '3.4.10']]]
+                }
             }
         }
     }
