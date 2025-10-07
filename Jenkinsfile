@@ -136,44 +136,44 @@ pipeline {
         //         }
         //     }
         // }
-        // stage('Nexus') {
-        //     steps {
-        //         script{
-        //             def pom = readMavenPom file: 'pom.xml'
-        //             println pom
+         stage('Nexus') {
+             steps {
+                 script{
+                     def pom = readMavenPom file: 'pom.xml'
+                     println pom
 
-        //             nexusPublisher nexusInstanceId: 'nexus',
-        //             nexusRepositoryId: 'spring-petclinic-rest-release',
-        //             packages: [[$class: 'MavenPackage',
-        //             mavenAssetList: [[classifier: '', extension: '', filePath: "target/${pom.artifactId}-${pom.version}.${pom.packaging}"]],
-        //             mavenCoordinate: [
-        //             groupId: "${pom.groupId}",
-        //             artifactId: "${pom.artifactId}",
-        //             packaging: "${pom.packaging}",
-        //             version: "${pom.version}-${BUILD_NUMBER}"]]]
+                     nexusPublisher nexusInstanceId: 'nexus',
+                     nexusRepositoryId: 'spring-petclinic-rest-release',
+                     packages: [[$class: 'MavenPackage',
+                     mavenAssetList: [[classifier: '', extension: '', filePath: "target/${pom.artifactId}-${pom.version}.${pom.packaging}"]],
+                     mavenCoordinate: [
+                     groupId: "${pom.groupId}",
+                     artifactId: "${pom.artifactId}",
+                     packaging: "${pom.packaging}",
+                     version: "${pom.version}-${BUILD_NUMBER}"]]]
 
-        //             // nexus with curl -- revisar docs
-        //             sh """
-        //                curl -X POST -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} \
-        //                -H "Content-Type: application/json" \
-        //                -d '{
-        //                    "mavenCoordinate": {
-        //                        "groupId": "${pom.groupId}",
-        //                        "artifactId": "${pom.artifactId}",
-        //                        "version": "${pom.version}-${BUILD_NUMBER}",
-        //                        "packaging": "${pom.packaging}"
-        //                    },
-        //                    "files": [
-        //                        {
-        //                            "path": "target/${pom.artifactId}-${pom.version}.${pom.packaging}"
-        //                        }
-        //                    ]
-        //                }' \
-        //                http://nexus:8081/service/rest/v1/components?repository=spring-petclinic-rest-release
-        //             """
-        //         }
-        //     }
-        // }
+                     // nexus with curl -- revisar docs
+                     sh """
+                        curl -X POST -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} \
+                        -H "Content-Type: application/json" \
+                        -d '{
+                            "mavenCoordinate": {
+                                "groupId": "${pom.groupId}",
+                                "artifactId": "${pom.artifactId}",
+                                "version": "${pom.version}-${BUILD_NUMBER}",
+                                "packaging": "${pom.packaging}"
+                            },
+                            "files": [
+                                {
+                                    "path": "target/${pom.artifactId}-${pom.version}.${pom.packaging}"
+                                }
+                            ]
+                        }' \
+                        http://nexus:8081/service/rest/v1/components?repository=spring-petclinic-rest-release
+                     """
+                 }
+             }
+         }
         stage('Artifactory') {
             steps {
                 script{
@@ -202,20 +202,6 @@ pipeline {
              //   }
            // }
        // }
-            stage('Nexus') {
-                steps {
-                    nexusPublisher nexusInstanceId: 'nexus', 
-                    nexusRepositoryId: 'spring-petclinic-rest-release',
-                    packages: [[$class: 'MavenPackage',
-                    mavenAssetList: [[classifier: '', extension: '',
-                    filePath: 'target/spring-petclinic-rest-3.4.10.jar']],
-                    mavenCoordinate: [artifactId: 'spring-petclinic-rest',
-                    groupId: 'org.springframework.samples',
-                    packaging: 'jar', version: '3.4.10']]]
-                }
-            }
-        }
-    }
     post {
         success {
             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
