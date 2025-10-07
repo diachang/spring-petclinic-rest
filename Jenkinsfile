@@ -174,9 +174,9 @@ pipeline {
                  }
              }
          }
-        stage('Artifactory') {
-            steps {
-                script{
+     //   stage('Artifactory') {
+     //       steps {
+    //            script{
                     // Forma 2 - File Spec
                    // def server = Artifactory.server 'artifactory'
                    // def targetRepo = 'spring-petclinic-rest-snapshot'
